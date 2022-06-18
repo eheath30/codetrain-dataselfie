@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body class="container mt-3">
+
+    <div class="container">
+      <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a href="http://localhost:3000/#" class="nav-link active" aria-current="page">Home</a></li>
+          <li class="nav-item"><a href="http://localhost:3000/all.html" class="nav-link">Data History</a></li>
+          <li class="nav-item"><a href="http://localhost:3000/DataSelfie.html" class="nav-link">Take a Data Selfie</a></li>
+          <li class="nav-item"><a href="http://localhost:3000/Contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </header>
+    </div>
+
+
+
+
+    <script>
+
+        getData();
+
+    async function getData() {
+    const response = await fetch('/api');
+    const data = await response.json();
+
+    for (item of data) {
+        const root = document.createElement('div');
+        const mood = document.createElement('div');
+        const geo = document.createElement('div');
+        const date = document.createElement('div');
+        const image = document.createElement('img')
+
+    image.alt = `Data-selfie, mood => ${item.mood}`
+    image.title = `Data-selfie-from-DataSelfieApp, mood => ${item.mood}`
+
+
+        mood.textContent = `mood: ${item.mood}`;
+        geo.textContent = `${item.lat}, ${item.lon}`;
+        const dateString = new Date(item.timestamp).toLocaleString();
+        date.textContent = dateString;
+        image.src = item.image64;
+        root.append(mood, geo, date, image);
+        document.body.append(root);
+
+    }
+}
+
+    </script>
+
+
+
+
+</body>
+</html>
